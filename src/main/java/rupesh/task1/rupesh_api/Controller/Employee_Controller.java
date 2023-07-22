@@ -40,4 +40,17 @@ public class Employee_Controller {
         return employees;
 
     }
+
+    @GetMapping("/emp/task/status")
+    public ResponseEntity<String> statusChange(@RequestParam Integer emp_Id, @RequestParam Integer id) {
+        String s1 = e_service.statusChange(emp_Id, id);
+        return ResponseEntity.ok().body(s1);
+    }
+
+    @GetMapping("/emp/id/{id}/task")
+    public List<Task> completedTask(@PathVariable Integer id, @RequestParam int status) {
+        List<Task> tasks = e_service.completedTasks(id, status);
+        return tasks;
+
+    }
 }

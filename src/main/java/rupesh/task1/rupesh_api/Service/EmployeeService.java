@@ -1,7 +1,6 @@
 package rupesh.task1.rupesh_api.Service;
 
 import java.util.List;
-
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
@@ -12,9 +11,11 @@ import rupesh.task1.rupesh_api.Entity.Task;
 
 @Service
 public class EmployeeService {
+
     public E_repo e_repo;
     public Task_repo t_repo;
 
+    // Constructor based dependency injection.
     public EmployeeService(E_repo e_repo, Task_repo t_repo) {
         this.e_repo = e_repo;
         this.t_repo = t_repo;
@@ -34,6 +35,7 @@ public class EmployeeService {
             task.setId(t1.getId());
             task.setTask(t1.getTask());
             task.setEmp(emp1);
+            task.setStatus(0);
             t_repo.save(task);
         }
 
@@ -53,5 +55,21 @@ public class EmployeeService {
         PageRequest page = PageRequest.of(page_Number, row_Number);
         List<Employee> emp = e_repo.findAll(page).getContent();
         return emp;
+    }
+
+    // Task status change.
+
+    public String statusChange(Integer emp_Id, Integer id) {
+        Task t1 = t_repo.find_By_Id(emp_Id, id);
+        t1.setStatus(1);
+        t_repo.save(t1);
+        return "Task" + " " + id + " " + "status changed to completed";
+    }
+
+    // List of completed tasks of employee.
+
+    public List<Task> completedTasks(Integer id, int status) {
+        List<Task> completedTasks = e_repo.completed_TaskList(id, status);
+        return completedTasks;
     }
 }
