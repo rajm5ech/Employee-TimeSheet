@@ -1,55 +1,43 @@
 package rupesh.task1.rupesh_api.Controller;
 
 import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import rupesh.task1.rupesh_api.Employee_Repo.E_repo;
-import rupesh.task1.rupesh_api.Employee_Repo.Task_repo;
 import rupesh.task1.rupesh_api.Entity.Employee;
 import rupesh.task1.rupesh_api.Entity.Task;
+import rupesh.task1.rupesh_api.Service.EmployeeService;
 
 @RestController
 public class Employee_Controller {
-    public E_repo e_repo;
-    public Task_repo t_repo;
 
     @Autowired
-    public Employee_Controller(E_repo e_repo, Task_repo t_repo) {
-        this.e_repo = e_repo;
-        this.t_repo = t_repo;
-    }
+    public EmployeeService e_service;
 
-    @PostMapping("/employee")
+    @PostMapping("/emp/creation/tasks")
     public ResponseEntity<String> employeecreation(@RequestBody Employee emp) {
-
-        Employee emp1 = new Employee();
-        emp1.setName(emp.getName());
-        emp1.setRole(emp.getRole());
-        e_repo.save(emp1);
-
-        for (Task t1 : emp.getTasks()) {
-            Task task1 = new Task();
-
-            task1.setTask(t1.getTask());
-            task1.setId(t1.getId());
-            task1.setEmp(emp1);
-            t_repo.save(task1);
-
-        }
-
-        return ResponseEntity.ok().body("Employee and its task inserted.");
+        String s1 = e_service.emp_Creation_task(emp);
+        return ResponseEntity.ok().body(s1);
 
     }
 
     @GetMapping("/emp/id/{id}/tasks")
     public List<Task> getTask(@PathVariable Integer id) {
-        List<Task> task = e_repo.taskOfEmployee(id);
-        return task;
+        List<Task> tasks = e_service.emp_tasks(id);
+        return tasks;
+    }
+
+    @GetMapping("/emp/all")
+    public List<Employee> all_Emp(@RequestParam int page_Number, @RequestParam int row_Number) {
+        List<Employee> employees = e_service.all_Employees(page_Number, row_Number);
+        return employees;
+
     }
 }

@@ -3,6 +3,7 @@ package rupesh.task1.rupesh_api.Entity;
 import java.util.List;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
@@ -14,7 +15,8 @@ public class Employee {
     private Integer id;
     private String name;
     private String role;
-    @OneToMany(mappedBy = "emp")
+
+    @OneToMany(mappedBy = "emp", fetch = FetchType.LAZY)
     private List<Task> tasks;
 
     public Employee() {
@@ -67,9 +69,7 @@ public class Employee {
 
     @Override
     public String toString() {
-        return "{" +
-                "\"id\": " + id +
-                ", \"tasks\": " + tasks +
-                '}';
+        return "Employee [id=" + id + ", name=" + name + ", role=" + role + "]";
     }
+
 }
