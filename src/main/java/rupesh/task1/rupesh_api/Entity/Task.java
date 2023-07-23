@@ -16,14 +16,17 @@ public class Task {
     @ManyToOne
     @JoinColumn(name = "employee_id")
     private Employee emp;
+    @JsonIgnore
+    private int status;
 
     public Task() {
     }
 
-    public Task(String task, Employee emp) {
+    public Task(String task, Employee emp, int status) {
 
         this.task = task;
         this.emp = emp;
+        this.status = status;
     }
 
     public Integer getId() {
@@ -50,6 +53,14 @@ public class Task {
         this.task = task;
     }
 
+    public int getStatus() {
+        return status;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
+    }
+
     @Override
     public String toString() {
         return "{" +
@@ -57,4 +68,5 @@ public class Task {
                 ", \"task\": \"" + task + "\"" +
                 '}';
     }
+
 }
