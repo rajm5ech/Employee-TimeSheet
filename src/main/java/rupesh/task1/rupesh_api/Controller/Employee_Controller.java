@@ -30,14 +30,15 @@ public class Employee_Controller {
 
     @GetMapping("/emp/id/{id}/tasks")
     public List<Task> getTask(@PathVariable Integer id) {
-        List<Task> tasks = e_service.emp_tasks(id);
-        return tasks;
+
+        return e_service.emp_tasks(id);
+
     }
 
     @GetMapping("/emp/all")
     public List<Employee> all_Emp(@RequestParam int page_Number, @RequestParam int row_Number) {
-        List<Employee> employees = e_service.all_Employees(page_Number, row_Number);
-        return employees;
+
+        return e_service.all_Employees(page_Number, row_Number);
 
     }
 
@@ -49,8 +50,7 @@ public class Employee_Controller {
 
     @GetMapping("/emp/id/{id}/task")
     public List<Task> completedTask(@PathVariable Integer id, @RequestParam int status) {
-        List<Task> tasks = e_service.completedTasks(id, status);
-        return tasks;
+        return e_service.completedTasks(id, status);
 
     }
 }
