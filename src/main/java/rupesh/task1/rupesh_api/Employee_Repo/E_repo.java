@@ -17,5 +17,5 @@ public interface E_repo extends JpaRepository<Employee, Integer> {
     public List<Task> taskOfEmployee(Integer id);
 
     @Query("Select t FROM Task t WHERE t.emp.id = :id AND status = :status")
-    public List<Task> completed_TaskList(@Param("id") Integer id, @Param("status") int status);
+    public List<Task> completedTaskList(@Param("id") Integer id, @Param("status") int status);
 }
